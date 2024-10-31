@@ -1,28 +1,32 @@
 // src/App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Login from './pages/Login';
-// import Home from './components/Home';
-// import Players from './components/Players';
-// import Coaches from './components/Coaches';
-// import Staff from './components/Staff';
+import Home from './pages/Home';
+import Players from './pages/Players';
+import Signup from './pages/Signup';
+import Navbar from './components/Navbar';
 
 function App() {
+  const [user, setUser] = useState(null); // State to hold the logged-in user
+
+  const handleLogin = (username) => {
+    setUser(username);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
   return (
     <Router>
       <div>
-        <nav>
-          <ul>
-            {/* <li><Link to="/">Home</Link></li> */}
-            <li><Link to="/login">Login</Link></li>
-          </ul>
-        </nav>
+        <Navbar user={user} onLogout={handleLogout} />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/players-home" element={<Players />} />
-          <Route path="/coaches-home" element={<Coaches />} />
-          <Route path="/staff-home" element={<Staff />} /> */}
+          <Route path="/" element={<Home user={user} />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </div>
     </Router>
